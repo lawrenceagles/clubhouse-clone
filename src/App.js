@@ -1,26 +1,22 @@
 import { useEffect } from 'react';
-import { useHMSActions } from '@100mslive/hms-video-react';
+import { selectIsConnectedToRoom, useHMSActions, useHMSStore } from '@100mslive/hms-video-react';
+import JoinForm from './components/JoinRoom';
+import Room from './components/Room';
 
-import JoinForm from './components/JoinClub';
-
-const App = () => {
+export default function App() {
+	const isConnected = useHMSStore(selectIsConnectedToRoom);
 	const hmsActions = useHMSActions();
 
-	// leaves a room whenever the user closes the window or refreshes the tab.
 	useEffect(
 		() => {
 			window.onunload = () => {
-				hmsActions.leave();
+				if (isConnected) {
+					hmsActions.leave();
+				}
 			};
 		},
-		[ hmsActions ]
+		[ hmsActions, isConnected ]
 	);
 
-	return (
-		<div className="App">
-			<JoinForm />
-		</div>
-	);
-};
-
-export default App;
+	return <div className="App">{isConnected ? <Room /> : <JoinForm />}</div>;
+}
