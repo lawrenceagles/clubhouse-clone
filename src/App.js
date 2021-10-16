@@ -2,7 +2,6 @@ import { Fragment, useEffect } from 'react';
 import { selectIsConnectedToRoom, useHMSActions, useHMSStore } from '@100mslive/hms-video-react';
 import JoinForm from './components/JoinRoom';
 import Room from './components/Room';
-import Footer from './components/Footer';
 
 export default function App() {
 	const isConnected = useHMSStore(selectIsConnectedToRoom);
@@ -24,7 +23,6 @@ export default function App() {
 			{isConnected ? (
 				<Fragment>
 					<Room />
-					<Footer />
 				</Fragment>
 			) : (
 				<JoinForm />

@@ -6,7 +6,7 @@ export default async function getToken(role) {
 		method: 'POST',
 		body: JSON.stringify({
 			user_id: '5fc62c5872909272bf9995e1',
-			role: role,
+			role,
 			room_id
 		})
 	});
