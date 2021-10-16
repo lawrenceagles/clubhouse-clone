@@ -1,14 +1,31 @@
 import { useState } from 'react';
 import { useHMSActions } from '@100mslive/hms-video-react';
 
+import getToken from '../utils/getToken';
+
 function JoinForm() {
+	const roles = [
+		{ label: 'Speaker', value: 'speaker' },
+		{ label: 'Listener', value: 'listener' },
+		{ label: 'Moderator', value: 'moderator' }
+	];
 	const hmsActions = useHMSActions();
 	const [ userName, setUserName ] = useState('');
-	// const [ authToken, setAuthToken ] = useState('');
+	const [ role, setRole ] = useState('speaker');
 
-	const handleSubmit = () => {
-		console.log('sumit', userName);
-		hmsActions.join({ userName });
+	const handleSubmit = async () => {
+		try {
+			const authToken = await getToken(role);
+			hmsActions.join({
+				userName,
+				authToken,
+				settings: {
+					isAudioMuted: true
+				}
+			});
+		} catch (error) {
+			console.log('Token API Error', error);
+		}
 	};
 
 	return (
@@ -32,6 +49,20 @@ function JoinForm() {
          border-gray-300 placeholder-gray-600 shadow-md focus:placeholder-gray-500
          focus:bg-white focus:border-gray-600 focus:outline-none"
 										/>
+									</div>
+
+									<div className="py-1">
+										<span className="px-1 text-sm text-gray-600">Role</span>
+										<select
+											onChange={(e) => setRole(e.target.value)}
+											className="text-md block px-3 py-2 rounded-lg w-full bg-white border-2 border-gray-300 placeholder-gray-600 shadow-md focus:placeholder-gray-500 focus:bg-white focus:border-gray-600 focus:outline-none"
+										>
+											{roles.map((role) => (
+												<option value={role.value} key={role.label}>
+													{role.label}
+												</option>
+											))}
+										</select>
 									</div>
 
 									<button
