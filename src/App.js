@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import { Fragment, useEffect } from 'react';
+import { selectIsConnectedToRoom, useHMSActions, useHMSStore } from '@100mslive/hms-video-react';
+import JoinForm from './components/JoinRoom';
+import Room from './components/Room';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default function App() {
+	const isConnected = useHMSStore(selectIsConnectedToRoom);
+	const hmsActions = useHMSActions();
+
+	useEffect(
+		() => {
+			window.onunload = () => {
+				if (isConnected) {
+					hmsActions.leave();
+				}
+			};
+		},
+		[ hmsActions, isConnected ]
+	);
+
+	return (
+		<div className="App">
+			{isConnected ? (
+				<Fragment>
+					<Room />
+				</Fragment>
+			) : (
+				<JoinForm />
+			)}
+		</div>
+	);
 }
-
-export default App;
