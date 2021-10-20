@@ -4,7 +4,7 @@ import Footer from './Footer';
 
 const Room = () => {
 	const peers = useHMSStore(selectPeers);
-	console.log('peers', peers);
+
 	return (
 		<section className="bg-gray-200 relative min-h-screen antialiased border-t-8 border-black">
 			<div className="max-w-sm mx-auto px-6">
