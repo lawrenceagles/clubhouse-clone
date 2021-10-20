@@ -3,7 +3,7 @@ import { useHMSActions } from '@100mslive/hms-video-react';
 
 import getToken from '../utils/getToken';
 
-function JoinForm() {
+const JoinForm = () => {
 	const roles = [
 		{ label: 'Speaker', value: 'speaker' },
 		{ label: 'Listener', value: 'listener' },
@@ -81,6 +81,6 @@ function JoinForm() {
 			</div>
 		</section>
 	);
-}
+};
 
 export default JoinForm;
