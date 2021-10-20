@@ -10,10 +10,14 @@ const JoinForm = () => {
 		{ label: 'Moderator', value: 'moderator' }
 	];
 	const hmsActions = useHMSActions();
+	const [ isLoading, setIsLoading ] = useState(false);
 	const [ userName, setUserName ] = useState('');
 	const [ role, setRole ] = useState('speaker');
 
 	const handleSubmit = async () => {
+		if (!userName) return; // makes sure user enters a username
+
+		setIsLoading(true);
 		try {
 			const authToken = await getToken(role);
 			hmsActions.join({
@@ -24,6 +28,7 @@ const JoinForm = () => {
 				}
 			});
 		} catch (error) {
+			setIsLoading(false);
 			console.log('Token API Error', error);
 		}
 	};
@@ -71,7 +76,7 @@ const JoinForm = () => {
 										className="mt-3 text-lg font-semibold bg-gray-800 w-full text-white 
      rounded-lg px-6 py-3 block shadow-xl hover:text-white hover:bg-black"
 									>
-										Join
+										{isLoading ? 'Loading...' : 'Join'}
 									</button>
 								</div>
 							</form>
