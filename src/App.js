@@ -3,7 +3,7 @@ import { selectIsConnectedToRoom, useHMSActions, useHMSStore } from '@100mslive/
 import JoinForm from './components/JoinRoom';
 import Room from './components/Room';
 
-export default function App() {
+const App = () => {
 	const isConnected = useHMSStore(selectIsConnectedToRoom);
 	const hmsActions = useHMSActions();
 
@@ -29,4 +29,6 @@ export default function App() {
 			)}
 		</div>
 	);
-}
+};
+
+export default App;

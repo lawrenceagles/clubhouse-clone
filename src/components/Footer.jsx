@@ -6,7 +6,7 @@ import {
 	useHMSStore
 } from '@100mslive/hms-video-react';
 
-function Footer() {
+const Footer = () => {
 	const [ mute, setMute ] = useState(true);
 	const audioEnabled = useHMSStore(selectIsLocalAudioEnabled);
 	const isConnected = useHMSStore(selectIsConnectedToRoom);
@@ -42,6 +42,6 @@ function Footer() {
 			</button>
 		</div>
 	);
-}
+};
 
 export default Footer;
